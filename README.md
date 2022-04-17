@@ -19,6 +19,7 @@ from sklearn.datasets import fetch_20newsgroups
 news=fetch_20newsgroups()
 print(news["data"][0:5])
 
+# 資料集檔
 #用的版本老可能畫圖顯示不出來，所以要加上%matplotlib inline
 %matplotlib inline
 import seaborn as sns
@@ -28,18 +29,19 @@ import pandas as pd
 iris_data=pd.DataFrame(data=iris.data, columns = ['Sepal_Length', 'Sepal_Width', 'Petal_Length', 'Petal_Width'])
 print(iris_data)
 
+# 資料集檔_class更改
 #新增目標值(自變數)
 iris_data["target"]=iris.target
 iris_data
 
-#定義畫圖函式_有線的
+# 定義畫圖函式_有線的
 def iris_plot(data,col1,col2):
     sns.lmplot(x=col1,y=col2,data=data)
     plt.show()
     
 iris_plot(iris_data,"Sepal_Length","Petal_Length")
 
-#定義畫圖函式_彩色
+# 定義畫圖函式_彩色
 def iris_plot(data,col1,col2):
     sns.lmplot(x=col1,y=col2,data=data,hue="target",fit_reg=False)
     plt.title("鳶尾花資料展示")
@@ -48,14 +50,14 @@ def iris_plot(data,col1,col2):
     plt.show()
 iris_plot(iris_data,"Sepal_Length","Petal_Length")
 
-#資料集的劃分
+# 資料集的劃分
 from sklearn.model_selection import train_test_split
 #會返回四個值iris.data拆分成特徵值，iris.target拆分成目標值
 x_train,x_test,y_train,y_test=train_test_split(iris.data,iris.target)
 print('訓練集的特徵值{}\n測試集的特徵值{}\n訓練集的目標值{}\n測試集的目標值{}'
       .format(x_train.shape,x_test.shape,y_train.shape,y_test.shape))
 
-#可以在裡面加上不同的api,比如test_size和random_state
+# 可以在裡面加上不同的api,比如test_size和random_state
 #隨機數種子，我們這裡傳入2
 x_train,x_test,y_train,y_test=train_test_split(iris.data,iris.target,test_size=0.2,random_state=2)
 print('測試集的目標值\n',y_test)
