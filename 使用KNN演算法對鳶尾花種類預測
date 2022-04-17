@@ -1,0 +1,32 @@
+#coding:utf-8
+from sklearn.datasets import load_iris#獲取資料集
+from sklearn.model_selection import train_test_split#資料分割
+from sklearn.preprocessing import StandardScaler#標準化
+from sklearn.neighbors import KNeighborsClassifier#模型KNN演算法
+
+iris=load_iris()
+
+#資料分割
+x_train,x_test,y_train,y_test=train_test_split(iris.data,iris.target,test_size=0.2,random_state=22)
+print(x_train)
+print(y_test)
+
+#例項化一個轉換器,標準化
+transfer=StandardScaler()
+#呼叫fit_transform方法
+x_train=transfer.fit_transform(x_train)
+x_test=transfer.fit_transform(x_test)
+
+#例項化一個估計器
+estimator=KNeighborsClassifier(n_neighbors=5)#預設auto選擇最優的
+#模型訓練
+estimator.fit(x_train,y_train)
+KNeighborsClassifier()
+
+#輸出預測值
+y_pre=estimator.predict(x_test)
+print("預測值：\n",y_pre)
+print("預測值和真實值t:\n",y_pre == y_test)
+#準確率
+ret=estimator.score(x_test,y_test)
+print("準確率是：",ret)#增加準確率可以去除random_state=22，或者調整n_neighbors
