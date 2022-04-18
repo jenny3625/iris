@@ -8,7 +8,7 @@ from sklearn.datasets import load_iris
 iris = load_iris()
 #資料集屬性描述
 print("鳶尾花資料集的返回值：\n", iris)
-# 返回值是一個繼承自字典的Bench
+#返回值是一個繼承自字典的Bench
 print("鳶尾花的特徵值:\n", iris["data"])
 print("鳶尾花的目標值：\n", iris.target)
 print("鳶尾花特徵的名字：\n", iris.feature_names)
