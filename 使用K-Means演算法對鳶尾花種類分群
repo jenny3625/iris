@@ -1,0 +1,72 @@
+import pandas as pd
+from sklearn import datasets
+
+iris = datasets.load_iris()
+dir(iris)
+['DESCR', 'data', 'feature_names', 'filename', 'target', 'target_names']
+
+df = pd.DataFrame(iris.data, columns = iris.feature_names)
+df.head()
+
+df.drop(['sepal length (cm)', 'sepal width (cm)'], axis='columns', inplace=True)
+df.head()
+
+from matplotlib import pyplot as plt
+plt.scatter(df['petal length (cm)'], df['petal width (cm)'])
+
+from sklearn.cluster import KMeans
+k_rng = range(1, 10)
+sse = []
+for k in k_rng:
+    km = KMeans(n_clusters=k)
+    km.fit_predict(df[['petal width (cm)', 'petal length (cm)']])
+    sse.append(km.inertia_)
+
+sse
+
+
+[550.8953333333334,
+ 86.39021984551397,
+ 31.371358974358973,
+ 19.48300089968511,
+ 13.916908757908757,
+ 11.03633387775173,
+ 9.191170634920635,
+ 7.672362403043182,
+ 6.456494541406307]
+
+plt.xlabel('K')
+plt.ylabel('SEE')
+plt.plot(k_rng, sse)
+
+km = KMeans(n_clusters=3)
+km
+
+KMeans(algorithm='auto', copy_x=True, init='k-means++', max_iter=300,
+    n_clusters=3, n_init=10, n_jobs=None, precompute_distances='auto',
+    random_state=None, tol=0.0001, verbose=0)
+
+cluster = km.fit_predict(df[['petal width (cm)', 'petal length (cm)']])
+df['cluster'] = cluster
+df.head()
+
+df1 = df[df.cluster == 0]
+df2 = df[df.cluster == 1]
+df3 = df[df.cluster == 2]
+
+plt.scatter(df1['petal length (cm)'], df1['petal width (cm)'], color = 'red')
+plt.scatter(df2['petal length (cm)'], df2['petal width (cm)'], color = 'blue')
+plt.scatter(df3['petal length (cm)'], df3['petal width (cm)'], color = 'green')
+
+df_new = pd.DataFrame(iris.data, columns = iris.feature_names)
+df_new['target'] = iris.target
+df_new.drop(['sepal length (cm)', 'sepal width (cm)'], axis = 'columns', inplace=True)
+df_new.head()
+
+df_new1 = df_new[df_new.target == 0]
+df_new2 = df_new[df_new.target == 1]
+df_new3 = df_new[df_new.target == 2]
+
+plt.scatter(df_new1['petal length (cm)'], df_new1['petal width (cm)'], color='red')
+plt.scatter(df_new2['petal length (cm)'], df_new2['petal width (cm)'], color='blue')
+plt.scatter(df_new3['petal length (cm)'], df_new3['petal width (cm)'], color='green')
